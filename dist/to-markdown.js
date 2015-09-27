@@ -469,6 +469,42 @@ module.exports = [
   },
 
   {
+    filter: 'video',
+    replacement: function(content, node) {
+      var alt =  node.getAttribute("alt") || '';
+      var src ;
+      for (var i = 0; i < node.childNodes.length; i++) 
+  		{
+  		if (node.childNodes[i].localName == 'source') {
+	  		src = node.childNodes[i].getAttribute('src') ;
+	  		break;
+	  		}
+  		}
+      var title = node.title || '';
+      var titlePart = title ? ' "'+ title +'"' : '';
+      return src ? '![video:' + alt + ']' + '(' + src + titlePart + ')' : '';
+    }
+  },
+
+  {
+    filter: 'audio',
+    replacement: function(content, node) {
+      var alt = node.getAttribute("alt") || '';
+      var src = node.getAttribute('src') || '';
+      if (!src)
+      for (var i = 0; i < node.childNodes.length; i++) 
+  		{
+  		if (node.childNodes[i].localName == 'source') {
+	  		src = node.childNodes[i].getAttribute('src') ;
+	  		break;
+	  		}
+  		}
+      var title = node.title || '';
+      var titlePart = title ? ' "'+ title +'"' : '';
+      return src ? '![audio:' + alt + ']' + '(' + src + titlePart + ')' : '';
+    }
+  },
+  {
     filter: 'img',
     replacement: function(content, node) {
       var alt = node.alt || '';
@@ -546,6 +582,7 @@ module.exports = [
     }
   }
 ];
+
 },{}],4:[function(require,module,exports){
 'use strict';
 
